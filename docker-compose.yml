@@ -1,15 +1,13 @@
 version: '3.7'
 
-volumes:
-  sql_v1:
-  html:
+#volumes:
+#  sql_v1:
 services:
    nginx:
       image: nginx
       container_name: nginx
       ports:
-        - '80:80'
-        - '443:443'
+        - '80:8080'
       volumes:
         - ./html:/usr/share/nginx/html/
         - ./nginx:/etc/nginx/conf.d
@@ -25,7 +23,9 @@ services:
       env_file: ./db.env
       
    php:
-      image: bitnami/php-fpm
+      build:
+        context: ./php
+        dockerfile: php-file
       container_name: php-fpm
       volumes:
         - ./html:/usr/share/nginx/html/
