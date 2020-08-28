@@ -1,25 +1,26 @@
 version: '3.7'
 
-#volumes:
-#  sql_v1:
 services:
    nginx:
       image: nginx
       container_name: nginx
       ports:
-        - '80:8080'
+        - '8080:80'
       volumes:
         - ./html:/usr/share/nginx/html/
         - ./nginx:/etc/nginx/conf.d
+        - ./sql-v1:/var/lib/mysql/
       depends_on: 
        - php
        - mysql
+       - bitrix
      
    mysql:
       image: mysql
       container_name: mysql
+      command: --default-authentication-plugin=mysql_native_password
       volumes:
-        - ./sql-vl:/var/lib/mysql/
+        - ./sql-vl:/var/lib/mysql:rw
       env_file: ./db.env
       
    php:
@@ -29,5 +30,16 @@ services:
       container_name: php-fpm
       volumes:
         - ./html:/usr/share/nginx/html/
+   #   environment:
+   #     PMA_HOST: mysql
+    #    DB_HOST: mysql
+
+   bitrix:
+      build:
+        context: ./bitrix
+      command: bash bitrix-install.sh
+      container_name: bitrix
+      volumes:
+        - ./html:/var/www/html 
   
 

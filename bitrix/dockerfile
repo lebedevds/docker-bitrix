@@ -1,0 +1,12 @@
+FROM ubuntu:20.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get -y update && apt-get -y install wget
+RUN mkdir -p /var/www/html/ 
+
+RUN wget https://www.1c-bitrix.ru/download/standard_encode.tar.gz
+
+COPY bitrix-install.sh ./
+
+
+
