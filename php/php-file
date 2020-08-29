@@ -6,15 +6,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd
 RUN docker-php-ext-install mysqli pdo pdo_mysql
-RUN cp $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini
-RUN sed -i "s|;date.timezone =.*|date.timezone = Europe/Moscow|" "$PHP_INI_DIR/php.ini"
-RUN sed -i "s|short_open_tag =.*|short_open_tag = on|" "$PHP_INI_DIR/php.ini"
-#WORKDIR usr/share/nginx/html/    
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod 0755 /usr/local/bin/docker-entrypoint.sh
-CMD ["/usr/local/bin/docker-entrypoint.sh"]    
-    
-    
-#CMD [ "php-fpm" ]
-
-
+RUN cp $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini \
+    && sed -i "s|;date.timezone =.*|date.timezone = Europe/Moscow|" "$PHP_INI_DIR/php.ini" \
+    && sed -i "s|short_open_tag =.*|short_open_tag = on|" "$PHP_INI_DIR/php.ini"
+CMD [ "php-fpm" ]
