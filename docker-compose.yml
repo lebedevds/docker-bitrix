@@ -8,7 +8,6 @@ services:
       volumes:
         - ./html:/usr/share/nginx/html/
         - ./nginx:/etc/nginx/conf.d
-        - ./sql-vl:/var/lib/mysql/
       depends_on: 
        - php
        - mysql
